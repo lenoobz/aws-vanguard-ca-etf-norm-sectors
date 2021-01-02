@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/hthl85/aws-vanguard-ca-etf-sectors/repositories/mongodb/repos"
 	"github.com/hthl85/aws-vanguard-ca-etf-sectors/services"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,8 +23,8 @@ func main() {
 	// init service
 	svc := services.NewFundService(repo)
 
-	if err = svc.PopulateFundSectors(); err != nil {
-		fmt.Println("error populate fund sectors")
-	}
-	// lambda.Start(svc.PopulateFundCountries)
+	// if err = svc.PopulateFundSectors(); err != nil {
+	// 	fmt.Println("error populate fund sectors")
+	// }
+	lambda.Start(svc.PopulateFundSectors)
 }
