@@ -19,9 +19,9 @@ type FundBreakdownModel struct {
 
 // BreakdownModel is the representation of country the fund exposed
 type BreakdownModel struct {
-	SectorCode  string  `json:"sectorCode,omitempty" bson:"sectorCode,omitempty"`
-	SectorName  string  `json:"sectorName,omitempty" bson:"sectorName,omitempty"`
-	FundPercent float64 `json:"fundPercent,omitempty" bson:"fundPercent,omitempty"`
+	SectorCode  string  `bson:"sectorCode,omitempty"`
+	SectorName  string  `bson:"sectorName,omitempty"`
+	FundPercent float64 `bson:"fundPercent,omitempty"`
 }
 
 // NewFundBreakdownModel create new fund exposure model
