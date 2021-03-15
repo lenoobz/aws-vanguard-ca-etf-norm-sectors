@@ -8,7 +8,15 @@ const Sectors = `
         "code": "IND"
     },
     {
+        "name": "Producer Durables",
+        "code": "IND"
+    },
+    {
         "name": "Financials",
+        "code": "FIN"
+    },
+    {
+        "name": "Financial Services",
         "code": "FIN"
     },
     {
@@ -24,7 +32,15 @@ const Sectors = `
         "code": "CNS"
     },
     {
+        "name": "Consumer Goods",
+        "code": "CNS"
+    },
+    {
         "name": "Information Technology",
+        "code": "TEC"
+    },
+    {
+        "name": "Technology",
         "code": "TEC"
     },
     {
@@ -32,7 +48,19 @@ const Sectors = `
         "code": "MTL"
     },
     {
+        "name": "Basic Materials",
+        "code": "MTL"
+    },
+    {
+        "name": "Materials & Processing",
+        "code": "MTL"
+    },
+    {
         "name": "Energy",
+        "code": "ENG"
+    },
+    {
+        "name": "Oil & Gas",
         "code": "ENG"
     },
     {
@@ -44,11 +72,19 @@ const Sectors = `
         "code": "TEL"
     },
     {
+        "name": "Telecommunications",
+        "code": "TEL"
+    },
+    {
         "name": "Real Estate",
         "code": "RLE"
     },
     {
         "name": "Other",
+        "code": "OTH"
+    },
+    {
+        "name": "Consumer Services",
         "code": "OTH"
     }
 ]

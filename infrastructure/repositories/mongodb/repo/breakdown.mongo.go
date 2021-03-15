@@ -99,13 +99,13 @@ func createContext(ctx context.Context, t uint64) (context.Context, context.Canc
 	return context.WithTimeout(ctx, timeout*time.Millisecond)
 }
 
-func getSectorCode(name string, codes []entities.SectorCode) string {
+func getSectorCode(name string, codes []entities.SectorCode) (string, error) {
 	for _, v := range codes {
-		if strings.ToUpper(v.Name) == strings.ToUpper(name) {
-			return v.Code
+		if strings.EqualFold(strings.ToUpper(v.Name), strings.ToUpper(name)) {
+			return v.Code, nil
 		}
 	}
-	return ""
+	return "OTH", fmt.Errorf("cannot find sector code for sector %s", name)
 }
 
 ///////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 
 	var codes []entities.SectorCode
 	if err := json.Unmarshal([]byte(consts.Sectors), &codes); err != nil {
-		r.log.Error(ctx, "unmarshal countries failed", err)
+		r.log.Error(ctx, "unmarshal sector codes const failed", err)
 		return nil, err
 	}
 
@@ -166,7 +166,12 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 		}
 
 		for _, v := range fund.Sectors {
-			v.SectorCode = getSectorCode(v.SectorName, codes)
+			code, err := getSectorCode(v.SectorName, codes)
+			if err != nil {
+				r.log.Error(ctx, "get sector code failed", "error", err)
+			}
+
+			v.SectorCode = code
 		}
 
 		funds = append(funds, &fund)
