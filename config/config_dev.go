@@ -20,3 +20,9 @@ var AppConf = AppConfig{
 		},
 	},
 }
+
+// Collection names
+const (
+	FUND_EXPOSURE_COL     = "exposure"
+	VANGUARD_OVERVIEW_COL = "overview"
+)

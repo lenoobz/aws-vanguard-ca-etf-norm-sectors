@@ -1,4 +1,4 @@
-package repo
+package repos
 
 import (
 	"context"
@@ -119,9 +119,10 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 	defer cancel()
 
 	// what collection we are going to use
-	colname, ok := r.conf.Colnames["overview"]
+	colname, ok := r.conf.Colnames[config.VANGUARD_OVERVIEW_COL]
 	if !ok {
 		r.log.Error(ctx, "cannot find collection name")
+		return nil, fmt.Errorf("cannot find collection name")
 	}
 	col := r.db.Collection(colname)
 
@@ -144,13 +145,13 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 
 	// find was not succeed
 	if err != nil {
-		r.log.Error(ctx, "find query failed", err)
+		r.log.Error(ctx, "find query failed", "error", err)
 		return nil, err
 	}
 
 	var codes []entities.SectorCode
 	if err := json.Unmarshal([]byte(consts.Sectors), &codes); err != nil {
-		r.log.Error(ctx, "unmarshal sector codes const failed", err)
+		r.log.Error(ctx, "unmarshal failed", "error", err)
 		return nil, err
 	}
 
@@ -161,7 +162,7 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 		// decode cursor to activity model
 		var fund entities.FundBreakdown
 		if err = cur.Decode(&fund); err != nil {
-			r.log.Error(ctx, "decode fund overview failed")
+			r.log.Error(ctx, "decode failed", "error", err)
 			return nil, err
 		}
 
@@ -178,7 +179,7 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 	}
 
 	if err := cur.Err(); err != nil {
-		r.log.Error(ctx, "iterate over the exposure list failed", err)
+		r.log.Error(ctx, "iterate over cursor failed", "error", err)
 		return nil, err
 	}
 
@@ -192,9 +193,10 @@ func (r *BreakdownMongo) UpdateSectorsBreakdown(ctx context.Context, funds []*en
 	defer cancel()
 
 	// what collection we are going to use
-	colname, ok := r.conf.Colnames["exposure"]
+	colname, ok := r.conf.Colnames[config.FUND_EXPOSURE_COL]
 	if !ok {
 		r.log.Error(ctx, "cannot find collection name")
+		return fmt.Errorf("cannot find collection name")
 	}
 	col := r.db.Collection(colname)
 
@@ -224,7 +226,7 @@ func (r *BreakdownMongo) UpdateSectorsBreakdown(ctx context.Context, funds []*en
 		opts := options.Update().SetUpsert(true)
 
 		if _, err := col.UpdateOne(ctx, filter, update, opts); err != nil {
-			r.log.Error(ctx, "update exposure failed", "ticker", fund.Ticker)
+			r.log.Error(ctx, "update one failed", "error", err, "ticker", fund.Ticker)
 			return err
 		}
 	}

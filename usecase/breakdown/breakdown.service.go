@@ -26,12 +26,12 @@ func (s *Service) PopulateFundSectors(ctx context.Context) error {
 
 	sectors, err := s.repo.FindSectorsBreakdown(ctx)
 	if err != nil {
-		s.log.Error(ctx, "find all sectors failed")
+		s.log.Error(ctx, "find all sectors failed", "error", err)
 		return err
 	}
 
 	if err := s.repo.UpdateSectorsBreakdown(ctx, sectors); err != nil {
-		s.log.Error(ctx, "update all sectors failed")
+		s.log.Error(ctx, "update all sectors failed", "error", err)
 		return err
 	}
 
