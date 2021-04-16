@@ -82,7 +82,7 @@ func NewBreakdownMongo(db *mongo.Database, l logger.ContextLog, conf *config.Mon
 // Close disconnect from database
 func (r *BreakdownMongo) Close() {
 	ctx := context.Background()
-	r.log.Info(ctx, "close sector mongo client")
+	r.log.Info(ctx, "close mongo client")
 
 	if r.client == nil {
 		return
