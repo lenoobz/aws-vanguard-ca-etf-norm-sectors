@@ -212,16 +212,19 @@ func (r *BreakdownMongo) UpdateSectorsBreakdown(ctx context.Context, funds []*en
 			Value: fund.Ticker,
 		}}
 
-		update := bson.D{{
-			Key:   "$set",
-			Value: fundModel,
-		}, {
-			Key: "$setOnInsert",
-			Value: bson.D{{
-				Key:   "createdAt",
-				Value: time.Now().UTC().Unix(),
-			}},
-		}}
+		update := bson.D{
+			{
+				Key:   "$set",
+				Value: fundModel,
+			},
+			{
+				Key: "$setOnInsert",
+				Value: bson.D{{
+					Key:   "createdAt",
+					Value: time.Now().UTC().Unix(),
+				}},
+			},
+		}
 
 		opts := options.Update().SetUpsert(true)
 
