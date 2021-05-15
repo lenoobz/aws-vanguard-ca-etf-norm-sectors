@@ -2,9 +2,7 @@ package repos
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"strings"
 	"time"
 
 	logger "github.com/hthl85/aws-lambda-logger"
@@ -99,15 +97,6 @@ func createContext(ctx context.Context, t uint64) (context.Context, context.Canc
 	return context.WithTimeout(ctx, timeout*time.Millisecond)
 }
 
-func getSectorCode(name string, codes []entities.SectorCode) (string, error) {
-	for _, v := range codes {
-		if strings.EqualFold(strings.ToUpper(v.Name), strings.ToUpper(name)) {
-			return v.Code, nil
-		}
-	}
-	return "OTH", fmt.Errorf("cannot find sector code for sector %s", name)
-}
-
 ///////////////////////////////////////////////////////////
 // Implement exposure repo interface
 ///////////////////////////////////////////////////////////
@@ -119,7 +108,7 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 	defer cancel()
 
 	// what collection we are going to use
-	colname, ok := r.conf.Colnames[config.VANGUARD_OVERVIEW_COL]
+	colname, ok := r.conf.Colnames[consts.VANGUARD_OVERVIEW_COL]
 	if !ok {
 		r.log.Error(ctx, "cannot find collection name")
 		return nil, fmt.Errorf("cannot find collection name")
@@ -149,12 +138,6 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 		return nil, err
 	}
 
-	var codes []entities.SectorCode
-	if err := json.Unmarshal([]byte(consts.Sectors), &codes); err != nil {
-		r.log.Error(ctx, "unmarshal failed", "error", err)
-		return nil, err
-	}
-
 	var funds []*entities.FundBreakdown
 
 	// iterate over the cursor to decode document one at a time
@@ -164,15 +147,6 @@ func (r *BreakdownMongo) FindSectorsBreakdown(ctx context.Context) ([]*entities.
 		if err = cur.Decode(&fund); err != nil {
 			r.log.Error(ctx, "decode failed", "error", err)
 			return nil, err
-		}
-
-		for _, v := range fund.Sectors {
-			code, err := getSectorCode(v.SectorName, codes)
-			if err != nil {
-				r.log.Error(ctx, "get sector code failed", "error", err)
-			}
-
-			v.SectorCode = code
 		}
 
 		funds = append(funds, &fund)
@@ -193,7 +167,7 @@ func (r *BreakdownMongo) UpdateSectorsBreakdown(ctx context.Context, funds []*en
 	defer cancel()
 
 	// what collection we are going to use
-	colname, ok := r.conf.Colnames[config.FUND_EXPOSURE_COL]
+	colname, ok := r.conf.Colnames[consts.ASSET_SECTOR_COL]
 	if !ok {
 		r.log.Error(ctx, "cannot find collection name")
 		return fmt.Errorf("cannot find collection name")

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/hthl85/aws-vanguard-ca-etf-norm-sectors/consts"
 	"github.com/hthl85/aws-vanguard-ca-etf-norm-sectors/entities"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -12,6 +13,7 @@ type FundBreakdownModel struct {
 	CreatedAt  int64               `bson:"createdAt,omitempty"`
 	ModifiedAt int64               `bson:"modifiedAt,omitempty"`
 	Schema     string              `bson:"schema,omitempty"`
+	Source     string              `bson:"source,omitempty"`
 	Ticker     string              `bson:"ticker,omitempty"`
 	AssetClass string              `bson:"assetClass,omitempty"`
 	Sectors    []*BreakdownModel   `bson:"sectors,omitempty"`
@@ -37,6 +39,7 @@ func NewFundBreakdownModel(e *entities.FundBreakdown) *FundBreakdownModel {
 	}
 
 	return &FundBreakdownModel{
+		Source:     consts.DATA_SOURCE,
 		Ticker:     e.Ticker,
 		AssetClass: e.AssetClass,
 		Sectors:    m,
