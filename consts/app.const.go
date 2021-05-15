@@ -7,5 +7,5 @@ const (
 )
 
 const (
-	DATA_SOURCE = "VANGUARD"
+	DATA_SOURCE = "VANGUARD_CA"
 )
