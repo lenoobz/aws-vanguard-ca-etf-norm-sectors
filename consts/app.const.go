@@ -2,8 +2,8 @@ package consts
 
 // Collection names
 const (
-	VANGUARD_OVERVIEW_COL = "overview" // Should match with Colnames's key of AppConf
-	ASSET_SECTOR_COL      = "sectors"
+	VANGUARD_FUND_OVERVIEW_COLLECTION = "vanguard_fund_overview" // Should match with Colnames's key of AppConf
+	ASSET_SECTORS_COLLECTION          = "asset_sectors"
 )
 
 const (

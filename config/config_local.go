@@ -15,8 +15,8 @@ var AppConf = AppConfig{
 		Dbname:        "etf_funds_local",
 		SchemaVersion: "1",
 		Colnames: map[string]string{
-			"overview": "vanguard_fund_overview",
-			"sectors":  "asset_sectors",
+			"vanguard_fund_overview": "vanguard_fund_overview",
+			"asset_sectors":          "asset_sectors",
 		},
 	},
 }

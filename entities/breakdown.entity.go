@@ -13,9 +13,3 @@ type SectorBreakdown struct {
 	SectorName  string  `json:"sectorName,omitempty"`
 	FundPercent float64 `json:"fundPercent,omitempty"`
 }
-
-// SectorCode represents sector info
-type SectorCode struct {
-	Name string `json:"name"`
-	Code string `json:"code"`
-}
