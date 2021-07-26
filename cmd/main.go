@@ -5,11 +5,11 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	corid "github.com/hthl85/aws-lambda-corid"
-	logger "github.com/hthl85/aws-lambda-logger"
-	"github.com/hthl85/aws-vanguard-ca-etf-norm-sectors/config"
-	"github.com/hthl85/aws-vanguard-ca-etf-norm-sectors/infrastructure/repositories/mongodb/repos"
-	"github.com/hthl85/aws-vanguard-ca-etf-norm-sectors/usecase/breakdown"
+	corid "github.com/lenoobz/aws-lambda-corid"
+	logger "github.com/lenoobz/aws-lambda-logger"
+	"github.com/lenoobz/aws-vanguard-ca-etf-norm-sectors/config"
+	"github.com/lenoobz/aws-vanguard-ca-etf-norm-sectors/infrastructure/repositories/mongodb/repos"
+	"github.com/lenoobz/aws-vanguard-ca-etf-norm-sectors/usecase/breakdown"
 )
 
 func main() {
